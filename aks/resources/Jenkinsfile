@@ -24,10 +24,8 @@ pipeline {
       stage('Jenkins: Determine Operations'){
         steps {
           script {
-                    def operation = readProperties file: "ops.properties"
-                    env.ciTerraform = operation['ciTerraform']
-                    env.ciAnsible = operation['ciAnsible']
-                          }
+                   def operation = "deploy"  
+                 }
                 }
               }
 
