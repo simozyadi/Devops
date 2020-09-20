@@ -15,7 +15,7 @@ pipeline {
 
         docker {
 
-	    #image 'xakra/ansible-dockerized'
+	    //image 'xakra/ansible-dockerized'
          image 'virtualhold/ansible-vault:latest'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
