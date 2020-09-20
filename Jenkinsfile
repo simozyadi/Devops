@@ -16,7 +16,7 @@ pipeline {
         docker {
 
 	    //image 'xakra/ansible-dockerized'
-         image 'virtualhold/ansible-vault:latest'
+         image 'siticom/terraform-ansible'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
