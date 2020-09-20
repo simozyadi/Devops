@@ -32,7 +32,7 @@ variable "rg_tag" {
 
 variable "rg_name" {
     type    = string
-    default = "vmRG"
+    default = "nemroodRG"
  }
 
 variable "vm_count" {
