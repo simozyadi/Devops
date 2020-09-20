@@ -55,7 +55,7 @@ pipeline {
 
             steps {
                 sh '''
-                ls && pwd && terraform plan -var-file=vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                cd vm && terraform plan -var-file=vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
@@ -64,7 +64,7 @@ pipeline {
 
             steps {
                 sh '''
-                terraform Apply ${BUILD_NUMBER}.tfplan --auto-approve
+                cd vm && terraform Apply ${BUILD_NUMBER}.tfplan --auto-approve
                 '''
             }
         }
