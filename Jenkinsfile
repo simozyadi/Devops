@@ -45,7 +45,7 @@ pipeline {
       stage('Terraform: Init') {
           steps {
              sh '''
-                   terraform init --backend-config=aks/resources/env/init.tfvars
+                   cd aks/resources/ && terraform init --backend-config=env/init.tfvars
              '''
             }
         }
@@ -53,7 +53,7 @@ pipeline {
       stage('Terraform: Plan') {
   	steps {
                 sh '''
-                terraform plan -var-file=aks/resources/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                cd aks/resources/ && terraform plan -var-file=aksenv/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
@@ -61,14 +61,14 @@ pipeline {
         stage('Terraform: Apply') {
 		steps {
                 sh '''
-                terraform init ${BUILD_NUMBER}.tfplan --auto-approve
+                cd && aks/resources/ terraform apply ${BUILD_NUMBER}.tfplan --auto-approve
                 '''
             }
         }
         stage('Terraform: Destroy') {
 		steps {
                 sh '''
-                terraform destroy -var-file=aks/resources/env/init.tfvars -var-file=aks/resources/plan.tfvars --auto-approve
+                cd aks/resources/ && terraform destroy -var-file=env/init.tfvars -var-file=env/plan.tfvars --auto-approve
                 '''
             }
         }
