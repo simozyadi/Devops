@@ -41,7 +41,7 @@ pipeline {
         stage('Terraform: destroy') {
 		steps {
                 sh '''
-                cd vm && terraform destroy  -var-file= env/init.tfvars -var-file=env/plan.tfvars --auto-approve
+                cd vm && terraform destroy  -var-file=env/init.tfvars -var-file=env/plan.tfvars --auto-approve
                 '''
             }
         }
