@@ -51,6 +51,9 @@ pipeline {
         }
         
       stage('Terraform: Plan') {
+                when {
+                  environment name: 'operation', value: 'deploy'
+                }
   	steps {
                 sh '''
                 cd aks/resources/ && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
@@ -59,13 +62,19 @@ pipeline {
         }
         
         stage('Terraform: Apply') {
+               when {
+                  environment name: 'operation', value: 'deploy'
+                }
 		steps {
                 sh '''
-                cd aks/resources/ && terraform apply ${BUILD_NUMBER}.tfplan --auto-approve
+                cd aks/resources/ && terraform apply ${BUILD_NUMBER}.tfplan 
                 '''
             }
         }
         stage('Terraform: Destroy') {
+		when {
+                  environment name: 'operation', value: 'destroy'
+                }
 		steps {
                 sh '''
                 cd aks/resources/ && terraform destroy -var-file=env/init.tfvars -var-file=env/plan.tfvars --auto-approve
