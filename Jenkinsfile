@@ -53,7 +53,7 @@ pipeline {
       stage('Terraform: Plan') {
   	steps {
                 sh '''
-                cd aks/resources/ && terraform plan -var-file=aksenv/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                cd aks/resources/ && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
