@@ -35,7 +35,13 @@ pipeline {
               }
 
       
-        
+           stage('Terraform: Init') {
+          steps {
+             sh '''
+                   cd vm && terraform init --backend-config=env/init.tfvars
+             '''
+            }
+        }   
       
         
         stage('Terraform: destroy') {
