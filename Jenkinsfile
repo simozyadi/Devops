@@ -51,8 +51,9 @@ pipeline {
     } 
             steps {
                 sh '''
-                ls && pwd
-                terraform init --backend-config= "./vm/env/init.tfvars"
+                ls vm/env/init.tfvars  && pwd
+                ls
+                terraform init --backend-config="vm/env/init.tfvars"
                 '''
             }
         }
