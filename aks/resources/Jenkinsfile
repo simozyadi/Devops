@@ -11,7 +11,7 @@ pipeline {
 
         docker {
 
-	    image 'hashicorp/terraform'
+	    image 'boxrick/terraform-ansible-docker'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
