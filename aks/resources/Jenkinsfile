@@ -1,12 +1,21 @@
+def operation
+
 pipeline {
-    
+
+    environment {
+
+      ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
+
+    }
+
+
     agent   {  
         
         docker {
 
-    image 'hashicorp/terraform'
-    label 'cdnode'
-    args "-u root:root --entrypoint='' --network host"
+	    image 'hashicorp/terraform'
+	    label 'cdnode'
+	    args "-u root:root --entrypoint='' --network host"
 
         }
         
@@ -17,11 +26,13 @@ pipeline {
       stage('Jenkins: Determine Switch Phase'){
         steps {
           script {
-                    def ciProperties = readProperties file: "./ci.properties"
-                    env.ciTerraform = ciProperties['ciTerraform']
+                    def operation = readProperties file: "./ops.properties"
+                    env.ciTerraform = operation['ciTerraform']
+                    env.ciAnsible = operation['ciAnsible']
                           }
                 }
               }
+
       stage('Ansible: Decrypt Files') {
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
