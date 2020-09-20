@@ -1,0 +1,24 @@
+---
+  - name: Provision Python2Azure Playbook
+    hosts: linux 
+    become: true
+    tasks:
+
+      - name: Setup Registries
+        shell: apt-get update && apt-get upgrade -y
+
+      - name: Install Python Pip
+        apt:
+          name:
+            - python3.7
+            - python-apt
+            - python3-pip
+
+      - name: Install Python Libraires
+        pip:
+          name:
+            - ansible[azure] 
+            - packaging
+            - pexpect
+            - msrestazure      
+      

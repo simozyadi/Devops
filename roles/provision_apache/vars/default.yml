@@ -1,0 +1,6 @@
+---
+app_user: "root"
+http_host: "Zyadéééééééé"
+http_conf: "test.conf"
+http_port: "80"
+disable_default: true
