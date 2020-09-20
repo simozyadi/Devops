@@ -1,0 +1,46 @@
+pipeline {
+    
+    agent   {  
+        
+        docker {
+
+    image 'hashicorp/terraform'
+    label 'cdnode'
+    args "-u root:root --entrypoint='' --network host"
+
+        }
+        
+    }
+    
+    stages {
+        stage('Terraform: Init') {
+            steps {
+                sh '''
+                terraform init --backend-config=init.tfvars
+                '''
+            }
+        }
+        
+        stage('Terraform: Plan') {
+            steps {
+                sh '''
+                terraform plan -var-file=plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                '''
+            }
+        }
+        
+        stage('Terraform: Apply') {
+            steps {
+                sh '''
+                terraform init ${BUILD_NUMBER}.tfplan --auto-approve
+                '''
+            }
+        }
+        
+    }
+            post {
+                always {
+                  step([$class: 'WsCleanup'])
+                }
+            }
+}
