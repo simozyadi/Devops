@@ -51,8 +51,7 @@ pipeline {
     } 
             steps {
                 sh '''
-                ls vm/env/init.tfvars  && pwd
-                ls
+                ls && pwd
                 terraform init --backend-config=vm/env/init.tfvars
                 '''
             }
@@ -73,7 +72,7 @@ pipeline {
     } 
             steps {
                 sh '''
-                terraform plan -var-file=./vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                ls && pwd && terraform plan -var-file=./vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
