@@ -22,6 +22,7 @@ variable "admin_password" {
 
 variable "location" {
     type     = string
+    default  = "westeurope"
 }
 
 variable "rg_tag" {
@@ -31,14 +32,17 @@ variable "rg_tag" {
 
 variable "rg_name" {
     type    = string
+    default = "vmRG"
  }
 
 variable "vm_count" {
+    type    = number
     default  = 1
  }
 
 variable "vm_image_string" {
     type    = string
+    default = "OpenLogic/CentOS/7.5/latest"
  }
 
 variable "vm_size" {
