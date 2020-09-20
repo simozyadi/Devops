@@ -20,8 +20,7 @@ pipeline {
               }
 
      stage('Ansible: Decrypt Files') {
-	agent {	docker {  image 'ansible/ansible'	
-			  label'cdnode'	}}
+	agent {	docker 'ansible/ansible' }	
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
               sh """
@@ -36,9 +35,7 @@ pipeline {
               }
 
       stage('Terraform: Init') {
-        agent { docker {  image 'hashicorp/terraform'
-                          label'cdnode'
-			   args '-u root:root -entrypoint='' -network host' }}
+        agent { docker 'hashicorp/terraform' }
           steps {
              sh '''
                    terraform init --backend-config=init.tfvars
@@ -46,11 +43,9 @@ pipeline {
             }
         }
         
-        stage('Terraform: Plan') {
-        agent { docker {  image 'hashicorp/terraform'
-                          label'cdnode'
-                           args '-u root:root -entrypoint='' -network host' }}
-            steps {
+      stage('Terraform: Plan') {
+        agent { docker 'hashicorp/terraform' }      
+  	steps {
                 sh '''
                 terraform plan -var-file=plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
@@ -58,20 +53,16 @@ pipeline {
         }
         
         stage('Terraform: Apply') {
-        agent { docker {  image 'hashicorp/terraform'
-                          label'cdnode'
-                           args '-u root:root -entrypoint='' -network host' }}
-            steps {
+            agent { docker 'hashicorp/terraform' }
+		steps {
                 sh '''
                 terraform init ${BUILD_NUMBER}.tfplan --auto-approve
                 '''
             }
         }
         stage('Terraform: Destroy') {
-        agent { docker {  image 'hashicorp/terraform'
-                          label'cdnode'
-                           args '-u root:root -entrypoint='' -network host' }}
-            steps {
+            agent { docker 'hashicorp/terraform' }
+		steps {
                 sh '''
                 terraform destroy -var-file=init.tfvars -var-file=plan.tfvars --auto-approve
                 '''
