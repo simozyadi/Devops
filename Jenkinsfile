@@ -15,7 +15,7 @@ pipeline {
 
         docker {
 
-	    image 'ansible/ansible'
+	    image 'ansible/ansible:fedora27py3'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
