@@ -1,3 +1,5 @@
+def operation = "deploy"
+
 pipeline {
 
     environment {
@@ -20,13 +22,6 @@ pipeline {
     } 
     stages {
 
-      stage('Jenkins: Determine Operations'){
-        steps {
-          script {
-                   def operation = "deploy"  
-                 }
-                }
-              }
 
      stage('Ansible: Decrypt Files') {
          steps{
