@@ -34,26 +34,14 @@ pipeline {
                 }
               }
 
-      stage('Terraform: Init') {
-          steps {
-             sh '''
-                   cd vm && terraform init --backend-config=env/init.tfvars
-             '''
-            }
-        }
+      
         
-      stage('Terraform: Plan') {
-  	steps {
-                sh '''
-                cd vm && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
-                '''
-            }
-        }
+      
         
-        stage('Terraform: Apply') {
+        stage('Terraform: destroy') {
 		steps {
                 sh '''
-                cd vm && terraform apply ${BUILD_NUMBER}.tfplan 
+                cd vm && terraform destroy  -var-file= env/init.tfvars -var-file=env/plan.tfvars --auto-approve
                 '''
             }
         }
