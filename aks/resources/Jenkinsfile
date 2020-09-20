@@ -23,10 +23,10 @@ pipeline {
     
     stages {
 
-      stage('Jenkins: Determine Switch Phase'){
+      stage('Jenkins: Determine Operations'){
         steps {
           script {
-                    def operation = readProperties file: "./ops.properties"
+                    def operation = readProperties file: "ops.properties"
                     env.ciTerraform = operation['ciTerraform']
                     env.ciAnsible = operation['ciAnsible']
                           }
