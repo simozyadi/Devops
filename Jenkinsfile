@@ -1,4 +1,11 @@
 pipeline {
+
+
+       environment {
+
+      ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
+
+    }
     
        agent   {  
 
@@ -13,11 +20,6 @@ pipeline {
 
     } 
 
-     environment {
-
-      ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
-
-    }
   
     stages {
 
@@ -32,8 +34,8 @@ pipeline {
                      echo before cat
                      cat ./vault.txt
                      echo after cat
-                     ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./vm/env/init.tfvars"
-                     ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./vm/env/plan.tfvars"
+                     ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "vm/env/init.tfvars"
+                     ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "vm/env/plan.tfvars"
               """
                   }
                 }
@@ -53,7 +55,7 @@ pipeline {
 
             steps {
                 sh '''
-                ls && pwd && terraform plan -var-file=./vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                ls && pwd && terraform plan -var-file=vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
