@@ -45,7 +45,7 @@ pipeline {
       stage('Terraform: Init') {
           steps {
              sh '''
-                   terraform init --backend-config=init.tfvars
+                   terraform init --backend-config=aks/resources/env/init.tfvars
              '''
             }
         }
@@ -53,7 +53,7 @@ pipeline {
       stage('Terraform: Plan') {
   	steps {
                 sh '''
-                terraform plan -var-file=plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                terraform plan -var-file=aks/resources/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
