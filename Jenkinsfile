@@ -42,7 +42,7 @@ pipeline {
 
         docker {
 
-         image 'terraformdocker/terraform:latest'
+         image 'hashicorp/terraform:latest'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
@@ -64,7 +64,7 @@ pipeline {
 
         docker {
 
-         image 'terraformdocker/terraform:latest'
+         image 'hashicorp/terraform:latest'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
@@ -84,7 +84,7 @@ pipeline {
 
         docker {
 
-         image 'terraformdocker/terraform:latest'
+         image 'hashicorp/terraform:latest'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
