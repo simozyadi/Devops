@@ -32,6 +32,7 @@ pipeline {
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
               sh """
+		    pip install --upgrade pip
 		    pip install pycrypto
                     echo $PASS > ./vault.txt
  	            ls && pwd
