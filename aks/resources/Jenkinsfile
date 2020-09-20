@@ -7,8 +7,17 @@ pipeline {
     }
 
 
-    agent { label 'cdnode' }  
-    
+   agent   {  
+
+        docker {
+
+	    image 'hashicorp/terraform'
+	    label 'cdnode'
+	    args "-u root:root --entrypoint='' --network host"
+
+        }
+
+    } 
     stages {
 
       stage('Jenkins: Determine Operations'){
@@ -20,7 +29,6 @@ pipeline {
               }
 
      stage('Ansible: Decrypt Files') {
-	agent {	docker 'cytopia/ansible -entrypoint=''' }	
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
               sh """
@@ -35,7 +43,6 @@ pipeline {
               }
 
       stage('Terraform: Init') {
-        agent { docker 'hashicorp/terraform' }
           steps {
              sh '''
                    terraform init --backend-config=init.tfvars
@@ -44,7 +51,6 @@ pipeline {
         }
         
       stage('Terraform: Plan') {
-        agent { docker 'hashicorp/terraform' }      
   	steps {
                 sh '''
                 terraform plan -var-file=plan.tfvars -out=${BUILD_NUMBER}.tfplan
@@ -53,7 +59,6 @@ pipeline {
         }
         
         stage('Terraform: Apply') {
-            agent { docker 'hashicorp/terraform' }
 		steps {
                 sh '''
                 terraform init ${BUILD_NUMBER}.tfplan --auto-approve
@@ -61,7 +66,6 @@ pipeline {
             }
         }
         stage('Terraform: Destroy') {
-            agent { docker 'hashicorp/terraform' }
 		steps {
                 sh '''
                 terraform destroy -var-file=init.tfvars -var-file=plan.tfvars --auto-approve
