@@ -1,10 +1,9 @@
-def operation = "deploy"
-
 pipeline {
 
     environment {
 
       ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
+      operation = "deploy"
 
     }
 
