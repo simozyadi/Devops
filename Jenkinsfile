@@ -45,7 +45,7 @@ pipeline {
 
         docker {
 
-         image 'hashicorp/terraform:latest'
+         image 'siticom/terraform-ansible'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
@@ -66,7 +66,7 @@ pipeline {
 
         docker {
 
-         image 'hashicorp/terraform:latest'
+         image 'siticom/terraform-ansible'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
@@ -86,7 +86,7 @@ pipeline {
 
         docker {
 
-         image 'hashicorp/terraform:latest'
+         image 'siticom/terraform-ansible'
 	    label 'cdnode'
 	    args "-u root:root --entrypoint='' --network host"
 
