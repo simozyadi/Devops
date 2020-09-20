@@ -30,6 +30,9 @@ pipeline {
               }
 
       stage('Ansible: Decrypt Files') {
+	agent {	docker {  image 'ansible/ansible'	
+			  label'cdnode'
+			  args "-u root:root --entrypoint='' --network host"	}		}
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
               sh """
