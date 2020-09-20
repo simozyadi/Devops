@@ -37,25 +37,61 @@ pipeline {
               }
 
         stage('Terraform: Init') {
+
+                    agent   {  
+
+        docker {
+
+         image 'terraformdocker/terraform:latest'
+	    label 'cdnode'
+	    args "-u root:root --entrypoint='' --network host"
+
+        }
+
+    } 
             steps {
                 sh '''
-               echo  terraform init --backend-config=init.tfvars
+                terraform init --backend-config=init.tfvars
                 '''
             }
         }
         
         stage('Terraform: Plan') {
+
+           agent   {  
+
+        docker {
+
+         image 'terraformdocker/terraform:latest'
+	    label 'cdnode'
+	    args "-u root:root --entrypoint='' --network host"
+
+        }
+
+    } 
             steps {
                 sh '''
-              echo  terraform plan -var-file=plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                terraform plan -var-file=plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
         
         stage('Terraform: Apply') {
+
+                    agent   {  
+
+        docker {
+
+         image 'terraformdocker/terraform:latest'
+	    label 'cdnode'
+	    args "-u root:root --entrypoint='' --network host"
+
+        }
+
+    } 
             steps {
                 sh '''
-               echo terraform init ${BUILD_NUMBER}.tfplan --auto-approve
+                terraform Apply ${BUILD_NUMBER}.tfplan --auto-approve
                 '''
             }
         }
