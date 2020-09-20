@@ -32,6 +32,7 @@ pipeline {
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
               sh """
+		    pip install pycrypto
                     echo $PASS > ./vault.txt
  	            ls && pwd
                     ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "aks/resources/env/init.tfvars"
