@@ -61,7 +61,7 @@ pipeline {
         stage('Terraform: Apply') {
 		steps {
                 sh '''
-                cd && aks/resources/ terraform apply ${BUILD_NUMBER}.tfplan --auto-approve
+                cd aks/resources/ && terraform apply ${BUILD_NUMBER}.tfplan --auto-approve
                 '''
             }
         }
