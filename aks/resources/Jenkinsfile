@@ -20,7 +20,7 @@ pipeline {
               }
 
      stage('Ansible: Decrypt Files') {
-	agent {	docker 'cytopia/ansible' }	
+	agent {	docker 'cytopia/ansible -entrypoint=''' }	
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
               sh """
