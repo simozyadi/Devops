@@ -29,6 +29,9 @@ pipeline {
               sh """
                     echo $PASS > ./vault.txt
  	                ls && pwd
+                     echo before cat
+                     cat ./vault.txt
+                     echo after cat
                      ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./vm/env/init.tfvars"
                      ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./vm/env/plan.tfvars"
               """
