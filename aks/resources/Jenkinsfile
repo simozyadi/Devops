@@ -34,8 +34,8 @@ pipeline {
               sh """
                     echo $PASS > ./vault.txt
 
-                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./env/init_protocol.tfvars"
-                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./env/plan_protocol.tfvars"
+                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./env/init.tfvars"
+                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./env/plan.tfvars"
 
               """
                   }
