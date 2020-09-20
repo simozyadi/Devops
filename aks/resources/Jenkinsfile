@@ -13,11 +13,34 @@ pipeline {
     }
     
     stages {
-        stage('Terraform: Init') {
-            steps {
-                sh '''
-                terraform init --backend-config=init.tfvars
-                '''
+
+      stage('Jenkins: Determine Switch Phase'){
+        steps {
+          script {
+                    def ciProperties = readProperties file: "./ci.properties"
+                    env.ciTerraform = ciProperties['ciTerraform']
+                          }
+                }
+              }
+      stage('Ansible: Decrypt Files') {
+         steps{
+           withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
+              sh """
+                    echo $PASS > ./vault.txt
+
+                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./env/init_protocol.tfvars"
+                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "./env/plan_protocol.tfvars"
+
+              """
+                  }
+                }
+              }
+
+      stage('Terraform: Init') {
+          steps {
+             sh '''
+                   terraform init --backend-config=init.tfvars
+             '''
             }
         }
         
@@ -33,6 +56,13 @@ pipeline {
             steps {
                 sh '''
                 terraform init ${BUILD_NUMBER}.tfplan --auto-approve
+                '''
+            }
+        }
+        stage('Terraform: Destroy') {
+            steps {
+                sh '''
+                terraform destroy -var-file=init.tfvars -var-file=plan.tfvars --auto-approve
                 '''
             }
         }
