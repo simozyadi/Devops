@@ -1,17 +1,6 @@
 pipeline {
     
-    agent any
-
-     environment {
-
-      ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
-
-    }
-  
-    stages {
-
-        stage('Ansible: Decrypt Files') {
-     agent   {  
+       agent   {  
 
         docker {
 
@@ -23,6 +12,17 @@ pipeline {
         }
 
     } 
+
+     environment {
+
+      ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
+
+    }
+  
+    stages {
+
+        stage('Ansible: Decrypt Files') {
+ 
 
          steps{
            withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
@@ -41,17 +41,6 @@ pipeline {
 
         stage('Terraform: Init') {
 
-                    agent   {  
-
-        docker {
-
-         image 'siticom/terraform-ansible'
-	    label 'cdnode'
-	    args "-u root:root --entrypoint='' --network host"
-
-        }
-
-    } 
             steps {
                 sh '''
                 ls && pwd
@@ -62,17 +51,6 @@ pipeline {
         
         stage('Terraform: Plan') {
 
-           agent   {  
-
-        docker {
-
-         image 'siticom/terraform-ansible'
-	    label 'cdnode'
-	    args "-u root:root --entrypoint='' --network host"
-
-        }
-
-    } 
             steps {
                 sh '''
                 ls && pwd && terraform plan -var-file=./vm/env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
@@ -82,17 +60,6 @@ pipeline {
         
         stage('Terraform: Apply') {
 
-                    agent   {  
-
-        docker {
-
-         image 'siticom/terraform-ansible'
-	    label 'cdnode'
-	    args "-u root:root --entrypoint='' --network host"
-
-        }
-
-    } 
             steps {
                 sh '''
                 terraform Apply ${BUILD_NUMBER}.tfplan --auto-approve
