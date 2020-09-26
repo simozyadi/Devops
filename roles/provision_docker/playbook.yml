@@ -16,7 +16,7 @@
       name:
           - python3.7
           - python-apt
-          - python3-pip
+          - python-pip
 
     - name: Install Python Libraires
       pip:
