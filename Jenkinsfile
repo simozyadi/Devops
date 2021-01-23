@@ -1,67 +1,38 @@
 pipeline {
-
-    environment {
-
-      ANSIBLE_VAULT_PASSWORD_FILE = "./vault.txt"
-
-    }
-
-
-   agent   {  
-
+    
+    agent {
         docker {
-
-	    image 'siticom/terraform-ansible'
-	    label 'cdnode'
-	    args "-u root:root --entrypoint='' --network host"
-
+            image 'siticom/terraform-ansible'
+	        label 'master'
+	        args "-u root:root --entrypoint='' --network host"
         }
-
-    } 
+    }
+    
     stages {
+        
 
-
-     stage('Ansible: Decrypt Files') {
-         steps{
-           withCredentials([string(credentialsId: 'AnsibleVault', variable: 'PASS')]) {
-              sh """
-      		echo $PASS > ./vault.txt
- 	            ls && pwd
-                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "vm/env/init.tfvars"
-                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "vm/env/plan.tfvars"
-              """
-                  }
+        stage('Terraform Init') {
+            steps{
+                script{
+                    sh 'terraform init'
                 }
-              }
-
-      stage('Terraform: Init') {
-          steps {
-             sh '''
-                   cd vm && terraform init --backend-config=env/init.tfvars
-             '''
+            }
+        }
+        stage('Terraform Plan') {
+            steps{
+                script{
+                    sh 'terraform plan -out $BUILD_NUMBER.tfplan'
+                }
+            }    
+        }
+        stage('Terraform Apply') {
+            steps{
+                script{
+                    sh 'terraform apply $BUILD_NUMBER.tfplan'
+                }
             }
         }
         
-      stage('Terraform: Plan') {
-  	steps {
-                sh '''
-                cd vm && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
-                '''
-            }
-        }
-        
-        stage('Terraform: Apply') {
-		steps {
-                sh '''
-                cd vm && terraform apply ${BUILD_NUMBER}.tfplan 
-                '''
-            }
-        }
         
     }
-            post {
-                always {
-                  step([$class: 'WsCleanup'])
-                }
-            }
 }
