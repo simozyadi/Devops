@@ -18,17 +18,11 @@ pipeline {
                 }
             }
         }
-        stage('Terraform Plan') {
-            steps{
-                script{
-                    sh 'terraform plan -out $BUILD_NUMBER.tfplan'
-                }
-            }    
-        }
+
         stage('Terraform Apply') {
             steps{
                 script{
-                    sh 'terraform apply $BUILD_NUMBER.tfplan'
+                    sh 'terraform destroy --auto-approve'
                 }
             }
         }
