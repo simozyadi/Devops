@@ -46,7 +46,7 @@ pipeline {
         stage('Terraform: Destroy') {
 		      steps {
                 sh '''
-                cd bgwebapp/deploy && terraform destroy --auto-approve
+                cd bgwebapp/deploy && terraform destroy -var-file=../env/plan.tfvars --auto-approve
                 '''
             }
         }
