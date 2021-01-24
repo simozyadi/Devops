@@ -19,8 +19,8 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_app_service_plan" "appserviceplan" {
   name =  "appserviceplan"
-  location = "${azurerm_resource_group.rg.location}"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
+  location = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
    kind = "Linux"
    reserved = true 
@@ -35,9 +35,9 @@ resource "azurerm_app_service_plan" "appserviceplan" {
 # Create an Azure Web App for Containers in that App Service Plan
 resource "azurerm_app_service" "dockerapp" {
   name                = "${azurerm_resource_group.rg.name}-dockergoapp"
-  location            = "${azurerm_resource_group.rg.location}"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
-  app_service_plan_id = "${azurerm_app_service_plan.appserviceplan.id}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
 
   # Do not attach Storage by default
 
