@@ -18,6 +18,7 @@ resource "azurerm_app_service_plan" "slotDemo" {
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
     kind                = "Linux"
+    reserved            = true
     sku {
         tier = "Standard"
         size = "S1"
@@ -25,14 +26,14 @@ resource "azurerm_app_service_plan" "slotDemo" {
 }
 
 resource "azurerm_app_service" "slotDemo" {
-    name                = "blue-app-slot"
+    name                = "main"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
     app_service_plan_id = azurerm_app_service_plan.slotDemo.id
 }
 
 resource "azurerm_app_service_slot" "slotDemo" {
-    name                = "green-app-slot"
+    name                = "swap"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
     app_service_plan_id = azurerm_app_service_plan.slotDemo.id
