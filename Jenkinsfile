@@ -42,18 +42,11 @@ pipeline {
             }
         }
         
-      stage('Terraform: Plan') {
-  	steps {
-                sh '''
-                cd bgwebapp/deploy && terraform plan -var-file=../env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
-                '''
-            }
-        }
         
-        stage('Terraform: Apply') {
-		steps {
+        stage('Terraform: Destroy') {
+		      steps {
                 sh '''
-                cd bgwebapp/deploy && terraform apply ${BUILD_NUMBER}.tfplan 
+                cd bgwebapp/deploy && terraform destroy --auto-approve
                 '''
             }
         }
