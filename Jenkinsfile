@@ -37,7 +37,7 @@ pipeline {
       stage('Terraform: Init') {
           steps {
              sh '''
-                   cd bgwebapp/deploy && terraform init --backend-config=../env/init.tfvars
+                   cd bgwebapp && terraform init --backend-config=env/init.tfvars
              '''
             }
         }
@@ -46,7 +46,7 @@ pipeline {
         stage('Terraform: Destroy') {
 		      steps {
                 sh '''
-                cd bgwebapp/deploy && terraform destroy -var-file=../env/plan.tfvars --auto-approve
+                cd bgwebapp && terraform destroy -var-file=env/plan.tfvars --auto-approve
                 '''
             }
         }
