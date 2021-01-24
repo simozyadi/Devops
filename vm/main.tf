@@ -40,7 +40,7 @@ resource "azurerm_app_service" "dockerapp" {
   app_service_plan_id = azurerm_app_service_plan.appserviceplan.id
 
   # Do not attach Storage by default
-
+}
 
 
 
