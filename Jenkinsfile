@@ -42,18 +42,11 @@ pipeline {
             }
         }
         
-      stage('Terraform: Plan') {
-  	steps {
-                sh '''
-                cd webapp && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
-                '''
-            }
-        }
-        
-        stage('Terraform: Apply') {
+  
+        stage('Terraform: destroy') {
 		steps {
                 sh '''
-                cd webapp && terraform apply ${BUILD_NUMBER}.tfplan 
+                cd webapp && terraform destory --auto-aprove
                 '''
             }
         }
