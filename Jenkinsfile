@@ -37,7 +37,7 @@ pipeline {
       stage('Terraform: Init') {
           steps {
              sh '''
-                   cd bgwebapp/deploy && terraform init --backend-config=env/init.tfvars
+                   cd bgwebapp/deploy && terraform init --backend-config=../env/init.tfvars
              '''
             }
         }
@@ -45,7 +45,7 @@ pipeline {
       stage('Terraform: Plan') {
   	steps {
                 sh '''
-                cd bgwebapp/deploy && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                cd bgwebapp/deploy && terraform plan -var-file=../env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
