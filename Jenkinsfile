@@ -27,8 +27,8 @@ pipeline {
               sh """
       		echo $PASS > ./vault.txt
  	            ls && pwd
-                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "vm/env/init.tfvars"
-                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "vm/env/plan.tfvars"
+                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "webapp/env/init.tfvars"
+                    ansible-vault decrypt --vault-password-file="${ANSIBLE_VAULT_PASSWORD_FILE}" "webapp/env/plan.tfvars"
               """
                   }
                 }
@@ -37,7 +37,7 @@ pipeline {
       stage('Terraform: Init') {
           steps {
              sh '''
-                   cd vm && terraform init --backend-config=env/init.tfvars
+                   cd webapp && terraform init --backend-config=env/init.tfvars
              '''
             }
         }
@@ -45,7 +45,7 @@ pipeline {
       stage('Terraform: Plan') {
   	steps {
                 sh '''
-                cd vm && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
+                cd webapp && terraform plan -var-file=env/plan.tfvars -out=${BUILD_NUMBER}.tfplan
                 '''
             }
         }
@@ -53,7 +53,7 @@ pipeline {
         stage('Terraform: Apply') {
 		steps {
                 sh '''
-                cd vm && terraform apply ${BUILD_NUMBER}.tfplan 
+                cd webapp && terraform apply ${BUILD_NUMBER}.tfplan 
                 '''
             }
         }
