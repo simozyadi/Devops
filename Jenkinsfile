@@ -37,7 +37,7 @@ pipeline {
       stage('Terraform: Init') {
           steps {
              sh '''
-                   cd bgwebapp/deploy terraform init --backend-config=env/init.tfvars
+                   cd bgwebapp/deploy && terraform init --backend-config=env/init.tfvars
              '''
             }
         }
