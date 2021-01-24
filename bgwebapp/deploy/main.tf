@@ -26,14 +26,14 @@ resource "azurerm_app_service_plan" "slotDemo" {
 }
 
 resource "azurerm_app_service" "slotDemo" {
-    name                = "main"
+    name                = "maingoslot"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
     app_service_plan_id = azurerm_app_service_plan.slotDemo.id
 }
 
 resource "azurerm_app_service_slot" "slotDemo" {
-    name                = "swap"
+    name                = "swapgoslot"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
     app_service_plan_id = azurerm_app_service_plan.slotDemo.id
