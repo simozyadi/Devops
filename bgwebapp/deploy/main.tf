@@ -4,12 +4,12 @@ provider "azurerm" {
     features {}
 }
 
-resource "azurerm_resource_group" "ryuBlueGreenDep" {
+resource "azurerm_resource_group" "slotDemo" {
     name = "iac"
     location = "francecentral"
 }
 
-resource "azurerm_app_service_plan" "ryuBlueGreenDep" {
+resource "azurerm_app_service_plan" "slotDemo" {
     name                = "ServicePlanForBGD"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
@@ -19,14 +19,14 @@ resource "azurerm_app_service_plan" "ryuBlueGreenDep" {
     }
 }
 
-resource "azurerm_app_service" "ryuBlueGreenDep" {
+resource "azurerm_app_service" "slotDemo" {
     name                = "blue-app-slot"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
     app_service_plan_id = azurerm_app_service_plan.slotDemo.id
 }
 
-resource "azurerm_app_service_slot" "ryuBlueGreenDep" {
+resource "azurerm_app_service_slot" "slotDemo" {
     name                = "green-app-slot"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
