@@ -17,6 +17,7 @@ resource "azurerm_app_service_plan" "slotDemo" {
     name                = "ServicePlanForBGD"
     location            = azurerm_resource_group.slotDemo.location
     resource_group_name = azurerm_resource_group.slotDemo.name
+    kind                = "Linux"
     sku {
         tier = "Standard"
         size = "S1"
