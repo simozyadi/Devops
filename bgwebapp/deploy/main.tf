@@ -9,7 +9,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "slotDemo" {
-    name = "iac"
+    name = "blue_green_deployments_rg"
     location = "francecentral"
 }
 
