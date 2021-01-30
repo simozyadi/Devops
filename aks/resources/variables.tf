@@ -6,10 +6,8 @@ terraform {
 variable "subscription_id" {}
 variable "tenant_id" {}
 
-variable "service_principals" {
-  
-}
-
+variable "client_id" {}
+variable "client_secret" {}
 
 variable "prefix" {
   default = "v1devthanos"
@@ -21,13 +19,6 @@ variable "location" {
   description = "The location for the AKS deployment"
 }
 
-variable "CLIENT_ID" {
-  description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
-}
-
-variable "CLIENT_SECRET" {
-  description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
-}
 
 variable "admin_username" {
   default     = "azureuser"
