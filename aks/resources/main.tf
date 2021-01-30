@@ -33,7 +33,7 @@ module "kubernetes" {
   agents_size                     = var.agents_size
   agents_count                    = var.agents_count
   kubernetes_version              = var.kubernetes_version
-  service_principal_client_id     = var.client_id
-  service_principal_client_secret = var.client_secret
+  client_id     = var.client_id
+  client_secret = var.client_secret
   agent_pool_name                 = var.agent_pool_name
 }
