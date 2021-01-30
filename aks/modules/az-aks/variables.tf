@@ -49,10 +49,10 @@ variable "kubernetes_version" {
   default     = ""
 }
 
-variable "service_principal_client_id" {
+variable "client_id" {
   default     = ""
 }
 
-variable "service_principal_client_secret" {
+variable "client_secret" {
   default     = ""
 }
