@@ -12,7 +12,7 @@ pipeline {
         docker {
 
 	    image 'siticom/terraform-ansible'
-	    label 'cdnode'
+	    label 'master'
 	    args "-u root:root --entrypoint='' --network host"
 
         }
